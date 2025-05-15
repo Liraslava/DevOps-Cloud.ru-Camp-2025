@@ -1,0 +1,20 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch Auth Service",
+        "type": "go",
+        "request": "launch",
+        "mode": "debug",
+        "cwd": "${workspaceFolder}/run",
+        "program": "${workspaceFolder}/cmd/server/server.go",
+        "showLog": true,
+        "output": "___debug",
+        "console": "integratedTerminal",
+        "env": {
+            "$AUTHOR": "Lirika"
+        }
+      },
+    ]
+  }
