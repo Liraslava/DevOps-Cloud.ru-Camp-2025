@@ -23,15 +23,22 @@ spec:
           value: lirika
         livenessProbe:
           httpGet:
-            path: /health
+            path: /
             port: 8000
           initialDelaySeconds: 3
           periodSeconds: 3
         readinessProbe:
           httpGet:
-            path: /ready
+            path: /
             port: 8000
           initialDelaySeconds: 5
           periodSeconds: 5
+      volumeMounts:
+        - name: templates
+          mountPath: /home/service/templates
+      volumes:
+      - name: templates
+        configMap:
+          name: echo-templates
       imagePullSecrets:
       - name: regcred
