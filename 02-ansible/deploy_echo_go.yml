@@ -1,0 +1,91 @@
+---
+- name: Deploy Echo-Go application with Nginx load balancer
+  hosts: all
+  become: yes
+  vars:
+    docker_image: "lirika13/echo-go:v1"
+    container_count: 3
+    container_start_port: 8081
+    container_internal_port: 8000
+    author_names: ["lirika1", "lirika2", "lirika3"]
+
+  tasks:
+    # 1. Установка зависимостей
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - gnupg-agent
+
+    # 2. Установка Docker
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install Docker CE
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # 3. Запуск контейнеров
+    - name: Run Echo-Go containers with environment
+      docker_container:
+        name: "echo_go_{{ item.0 + 1 }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "{{ container_start_port + item.0 }}:{{ container_internal_port }}"
+        env:
+          AUTHOR: "{{ item.1 }}"
+      loop: "{{ range(0, container_count)|list|zip(author_names) }}"
+
+    # 4. Установка Nginx
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    # 5. Настройка балансировщика 
+    - name: Deploy Nginx config
+      copy:
+        src: files/load-balancer.conf
+        dest: /etc/nginx/conf.d/load-balancer.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
