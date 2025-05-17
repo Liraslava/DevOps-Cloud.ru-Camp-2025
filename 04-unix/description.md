@@ -1,10 +1,10 @@
 1. docker run -it --rm ubuntu bash
    
-![docker run](04-unix/images/1.png)
+![docker run]([04-unix/images/1.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/1.png))
 
 2. apt-get update (внутри контейнера)
 
-![apt-get](04-unix/images/2.png)
+![apt-get]([04-unix/images/2.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/2.png))
 
 3. Блокировка доступа в Интернет.
 Пробуем через утилиты
