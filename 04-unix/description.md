@@ -1,6 +1,6 @@
 1. docker run -it --rm ubuntu bash
    
-![docker run]([04-unix/images/1.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/1.png))
+![04-unix/images/1.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/1.png)
 
 2. apt-get update (внутри контейнера)
 
