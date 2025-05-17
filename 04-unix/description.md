@@ -4,23 +4,22 @@
 
 2. apt-get update (внутри контейнера)
 
-![apt-get]([04-unix/images/2.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/2.png))
+![04-unix/images/2.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/2.png)
 
 3. Блокировка доступа в Интернет.
 Пробуем через утилиты
 
 iptables -A OUTPUT -j DROP или ip route del default
 
-![iptables](04-unix/images/3.png)
+![04-unix/images/3.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/3.png)
 
 Утилиты отсутствуют... Тогда... Ломаем ДНС?
 
 echo "" > /etc/resolv.conf
 
-![resolv.conf](04-unix/images/4.png)
+![04-unix/images/4.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/4.png)
 
 Вуаля!
-
 
 
 Альтернатива, смотрим в /etc/hosts:
@@ -43,4 +42,4 @@ ff02::2	ip6-allrouters
 Добавляем глобальный редирект
 echo "0.0.0.0 0.0.0.0" >> /etc/hosts
 
-![etc/hosts](04-unix/images/5.png)
+![04-unix/images/5.png](https://github.com/Liraslava/DevOps-Cloud.ru-Camp-2025/blob/main/04-unix/images/5.png)
