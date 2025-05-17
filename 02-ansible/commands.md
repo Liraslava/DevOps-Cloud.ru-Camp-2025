@@ -17,7 +17,7 @@ echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# 5. 
+# 5. Повторное обновление
 sudo apt-get update
 
 # 6. Установка Docker CE
@@ -47,3 +47,22 @@ sudo nano /etc/nginx/conf.d/load-balancer.conf
 sudo nginx -t
 sudo systemctl reload nginx
 sudo systemctl restart nginx
+
+
+# 13. Поверки 
+ansible-playbook -i hosts deploy_echo_go.yml --syntax-check
+
+curl http://localhost:8081
+curl http://localhost:8082
+curl http://localhost:8083
+
+for i in {1..10}; do curl -s http://localhost | grep "имя хоста"; done | sort | uniq -c
+
+
+docker exec echo-go1 env | grep AUTHOR
+docker exec echo-go2 env | grep AUTHOR
+docker exec echo-go3 env | grep AUTHOR
+
+ansible all -i hosts -m uri -a "url=http://localhost:8081 return_content=yes"
+ansible all -i hosts -m uri -a "url=http://localhost:8082 return_content=yes"
+ansible all -i hosts -m uri -a "url=http://localhost:8083 return_content=yes"
