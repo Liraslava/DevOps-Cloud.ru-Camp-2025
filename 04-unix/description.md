@@ -1,23 +1,23 @@
 1. docker run -it --rm ubuntu bash
    
-![docker run]()
+![docker run](04-unix/images/1.png)
 
 2. apt-get update (внутри контейнера)
 
-![docker run]()
+![apt-get](04-unix/images/2.png)
 
 3. Блокировка доступа в Интернет.
 Пробуем через утилиты
 
 iptables -A OUTPUT -j DROP или ip route del default
 
-![docker run]()
+![iptables](04-unix/images/3.png)
 
 Утилиты отсутствуют... Тогда... Ломаем ДНС?
 
 echo "" > /etc/resolv.conf
 
-![docker run]()
+![resolv.conf](04-unix/images/4.png)
 
 Вуаля!
 
@@ -43,4 +43,4 @@ ff02::2	ip6-allrouters
 Добавляем глобальный редирект
 echo "0.0.0.0 0.0.0.0" >> /etc/hosts
 
-![docker run]()
+![etc/hosts](04-unix/images/5.png)
